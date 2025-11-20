@@ -105,6 +105,47 @@
       </div>
     </div>
   </section>
+  <mat-divider />
+  <section>
+    <div>
+      <span
+        style="width: 5rem; height: 5rem; border: 1px solid;"
+        [style]="'background-color: #ffffff'"
+      ></span>
+      <span
+        style="width: 5rem; height: 5rem; border: 1px solid;"
+        [style]="'background-color:' + onPrimarySignal()"
+      ></span>
+      <span
+        style="width: 5rem; height: 5rem; border: 1px solid;"
+        [style]="'background-color:' + onPrimarySignal()"
+      ></span>
+      <span
+        style="width: 5rem; height: 5rem; border: 1px solid;"
+        [style]="'background-color: #ffffff'"
+      ></span>
+    </div>
+  </section>
+  <section style="margin-bottom: 15rem;">
+    <div>
+      <span
+        style="width: 5rem; height: 5rem;"
+        [style]="'background-color: #1f1a1c'"
+      ></span>
+      <span
+        style="width: 5rem; height: 5rem;"
+        [style]="'background-color:' + onSurfaceSignal()"
+      ></span>
+      <span
+        style="width: 5rem; height: 5rem;"
+        [style]="'background-color:' + onSurfaceSignal()"
+      ></span>
+      <span
+        style="width: 5rem; height: 5rem;"
+        [style]="'background-color: #1f1a1c'"
+      ></span>
+    </div>
+  </section>
 </main>
 
 <router-outlet />
