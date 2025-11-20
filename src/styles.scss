@@ -1,1 +1,70 @@
-/* You can add global styles to this file, and also import other style files */
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+@use 'styles/theme-colors' as palettes;
+
+* {
+  box-sizing: border-box;
+
+  h1, h2, h3, h4, h5, h6, p, span {
+    margin: 0;
+  }
+}
+
+html {
+  @include mat.theme((
+    color: (
+      primary: palettes.$primary-palette,
+      tertiary: palettes.$tertiary-palette,
+      theme-type: light,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, sans-serif;
+  color: var(--on-surface);
+}
+
+:root {
+  --primary: var(--mat-sys-primary); // สีหลัก
+  --on-primary: var(--mat-sys-on-primary); // สีข้อความหรือไอคอน (--mat-sys-primary)
+  --primary-container: var(--mat-sys-primary-container); // สีพื้นหลังคอนเทนเนอร์หลัก
+  --on-primary-container: var(--mat-sys-on-primary-container); // สีข้อความหรือไอคอน (--mat-sys-primary-container)
+
+  --secondary: var(--mat-sys-secondary); // สีรอง
+  --on-secondary: var(--mat-sys-on-secondary); // สีข้อความหรือไอคอน (--mat-sys-secondary)
+  --secondary-container: var(--mat-sys-secondary-container); // สีพื้นหลังคอนเทนเนอร์รอง
+  --on-secondary-container: var(--mat-sys-on-secondary-container); // สีข้อความหรือไอคอน (--mat-sys-secondary-container)
+
+  --error: var(--mat-sys-error);
+  --on-error: var(--mat-sys-on-error);
+  --error-container: var(--mat-sys-error-container);
+  --on-error-container: var(--mat-sys-on-error-container);
+
+  --surface-dim: var(--mat-sys-surface-dim);
+  --surface: var(--mat-sys-surface); // สีพื้นหลังเริ่มต้น
+  --surface-bright: var(--mat-sys-surface-bright);
+  --surface-container-lowest: var(--mat-sys-surface-container-lowest); // สีพื้นหลังระดับล่างสุด
+  --surface-container-low: var(--mat-sys-surface-container-low); // สีพื้นหลัง container ต่ำ
+  --surface-container: var(--mat-sys-surface-container); // สีพื้นหลัง container ปกติ
+  --surface-container-high: var(--mat-sys-surface-container-high); // สีพื้นหลัง container สูง
+  --surface-container-highest: var(--mat-sys-surface-container-highest); //สีพื้นหลัง container สูงสุด
+  --on-surface: var(--mat-sys-on-surface); // สีข้อความหรือไอคอนหลัก
+  --on-surface-variant: var(--mat-sys-on-surface-variant); // สีข้อความหรือไอคอนรอง
+  --outline: var(--mat-sys-outline); // สีของเส้นขอบหรือกรอบ
+  --outline-variant: var(--mat-sys-outline-variant); // สีของเส้นขอบหรือกรอบแบบอ่อนลง
+
+  --level0: var(--mat-sys-level0);
+  --level1: var(--mat-sys-level1);
+  --level2: var(--mat-sys-level2);
+  --level3: var(--mat-sys-level3);
+  --level4: var(--mat-sys-level4);
+  --level5: var(--mat-sys-level5);
+}
