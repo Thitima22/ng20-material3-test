@@ -1,35 +1,53 @@
-import { Component, WritableSignal, signal } from '@angular/core';
+import { Component, inject, WritableSignal, signal, effect } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { themeFromSourceColor, hexFromArgb, argbFromHex } from '@material/material-color-utilities';
+import { ColorContrastService } from "./core/service/color-contrast-service";
+import { FormsModule } from "@angular/forms";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatDividerModule } from "@angular/material/divider";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MatButtonModule, MatIconModule, MatDividerModule],
+  imports: [
+    RouterOutlet,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDividerModule,
+  ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
 export class App {
-  onPrimarySignal: WritableSignal<string> = signal<string>('');
-  onSurfaceSignal: WritableSignal<string> = signal<string>('');
+  private colorContrastService = inject(ColorContrastService);
 
-  constructor() {
-    const seedColor = '#feb9cf';
+  backgroundColorSignal: WritableSignal<string> = signal('');
+  foregroundColorSignal: WritableSignal<string> = signal('');
+  isPassesWcagSignal: WritableSignal<boolean> = signal(false);
+  isShowSignal: WritableSignal<boolean> = signal(false);
 
-    const seedArgb = argbFromHex(seedColor);
-    const materialTheme = themeFromSourceColor(seedArgb);
+  effect = effect(() => {
+    if (!this.backgroundColorSignal().length) return;
 
-    const primaryPalette = materialTheme.palettes.primary;
-    const neutralPalette = materialTheme.palettes.neutral;
+    if (this.backgroundColorSignal().startsWith('#') && this.backgroundColorSignal().length === 7) {
+      this.isShowSignal.set(true);
 
-    const onPrimary = hexFromArgb(primaryPalette.tone(100));
-    // console.log('onPrimary: ', onPrimary)
-    this.onPrimarySignal.set(onPrimary);
-    
-    const onSurface = hexFromArgb(neutralPalette.tone(10));
-    // console.log('onSurface: ', onSurface)
-    this.onSurfaceSignal.set(onSurface);
-  }
+      const foregroundColor = this.colorContrastService.determineOptimalForegroundColor(this.backgroundColorSignal());
+      this.foregroundColorSignal.set(foregroundColor);
+
+      const isWcagAAForNormalText = this.colorContrastService.isWcagAAForNormalText(this.backgroundColorSignal(), this.foregroundColorSignal());
+      const isWcagAAForLargeText = this.colorContrastService.isWcagAAForLargeText(this.backgroundColorSignal(), this.foregroundColorSignal());
+      const isWcagAAAForNormalText = this.colorContrastService.isWcagAAAForNormalText(this.backgroundColorSignal(), this.foregroundColorSignal());
+      const isWcagAAAForLargeText = this.colorContrastService.isWcagAAAForLargeText(this.backgroundColorSignal(), this.foregroundColorSignal());
+
+      const isPassesWcag = isWcagAAForNormalText && isWcagAAForLargeText && isWcagAAAForNormalText && isWcagAAAForLargeText;
+      this.isPassesWcagSignal.set(isPassesWcag);
+    } else {
+      this.isShowSignal.set(false);
+    }
+  });
 }
